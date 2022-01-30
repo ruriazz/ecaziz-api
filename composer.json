@@ -1,0 +1,9 @@
+{
+    "require": {
+        "chriskacerguis/codeigniter-restserver": "^3.1",
+        "matthiasmullie/minify": "^1.3",
+        "kreait/firebase-php": "^6.1",
+        "hashids/hashids": "^4.1",
+        "ramsey/uuid": "^4.2"
+    }
+}
