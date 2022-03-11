@@ -3,4 +3,4 @@ from core.helpers.response import ApiResponse
 
 @api_view(['GET'])
 def test(request):
-    return ApiResponse("mantapps", 403)
+    return ApiResponse("Oke Mantap!", 403)
