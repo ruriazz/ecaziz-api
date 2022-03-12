@@ -1,6 +1,6 @@
 from rest_framework.decorators import api_view
-from core.helpers.response import ApiResponse
+from app.response import ApiResponse
 
 @api_view(['GET'])
 def test(request):
-    return ApiResponse("Oke Mantap!", 403)
+    return ApiResponse("test", 403)

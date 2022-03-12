@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+from .variables import app_config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5owfq%%7(d!)+6^sxc+g637hh9+obhk4fj8_(a5e)3ngir8v^+'
+SECRET_KEY = app_config.get('secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = app_config.get('is_debug')
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = app_config.get('allowed_hosts')
 
 
 # Application definition
@@ -127,4 +128,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ADMIN_ENABLED = True
+ADMIN_ENABLED = app_config.get('admin_enabled')
