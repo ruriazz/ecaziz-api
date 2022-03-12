@@ -1,5 +1,5 @@
 from rest_framework.decorators import api_view
-from app.response import ApiResponse
+from core.utils.response import ApiResponse
 
 @api_view(['GET'])
 def test(request):

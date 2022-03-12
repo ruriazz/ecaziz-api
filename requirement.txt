@@ -1,3 +1,9 @@
 Django==3.2
 djangorestframework==3.13.1
 hashids==0.8.4
+django-cors-headers==3.11.0
+mysqlclient==2.1.0
+bcrypt==3.2.0
+cffi==1.15.0
+pycparser==2.21
+six==1.16.0
