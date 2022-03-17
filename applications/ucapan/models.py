@@ -1,7 +1,7 @@
 from django.db import models
 from core.utils.models import ModelManager
 
-from undangan.models import Undangan
+from applications.undangan.models import Undangan
 
 # TODO: models.ucapan
 class Ucapan(models.Model):

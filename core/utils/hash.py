@@ -20,3 +20,16 @@ class Hash:
 
             except:
                 return False
+
+class JWT(object):
+    def __init__(self):
+        print("oke")
+
+    def encode(self, payload):
+        return "oke"
+
+    def decode(self, token):
+        return "oke"
+
+    def verify(self, token):
+        return "oke"

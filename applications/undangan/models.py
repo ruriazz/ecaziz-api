@@ -1,8 +1,7 @@
 from django.db import models
-from undangan.enums import UndanganType
 from core.utils.models import ModelManager
-
-from users.models import User
+from enums.undangan_type import UndanganType
+from applications.users.models import User
 
 # TODO: models.Undangan
 class Undangan(models.Model):

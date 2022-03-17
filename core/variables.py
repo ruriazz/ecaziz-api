@@ -23,7 +23,13 @@ HASHIDS_SALT = {
     'ucapan_id': '5ApYwHieqQRB0ccF'
 }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '192.168.6.26'
+]
+
+ALLOWED_ORIGINS = []
+
+CSRF_TRUSTED = []
 
 app_config = {
     'environment': ENV,
@@ -39,4 +45,6 @@ app_config = {
     'allowed_hosts': ALLOWED_HOSTS,
     'admin_enabled': ADMIN_ENABLED,
     'is_debug': DEBUG,
+    'allowed_origins': ALLOWED_ORIGINS,
+    'csrf_trusted': CSRF_TRUSTED,
 }

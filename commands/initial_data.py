@@ -1,4 +1,4 @@
-from users.models import User
+from applications.users.models import User
 from rest_framework.decorators import api_view
 from core.utils.response import ApiResponse
 

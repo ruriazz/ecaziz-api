@@ -1,16 +1,16 @@
 import datetime
 from rest_framework.response import Response
 
-def ApiResponse(data = None, code : int = 200):
+def ApiResponse(data = None, status : int = 200, headers : dict = {}):
     response = {
         'success': False,
-        'code': code
+        'code': status
     }
 
     if data:
         response['content'] = data
 
-    if code >= 200 and code <= 206:
+    if status >= 200 and status <= 206:
         response['success'] = True
     else:
         del response['content']
@@ -25,4 +25,4 @@ def ApiResponse(data = None, code : int = 200):
         response['message'] = data
 
     response['time'] = datetime.datetime.now()
-    return Response(response, code)
+    return Response(data=response, status=status, headers=headers)

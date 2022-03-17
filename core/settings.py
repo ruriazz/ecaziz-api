@@ -17,10 +17,9 @@ DEBUG = app_config.get('is_debug')
 
 ALLOWED_HOSTS = app_config.get('allowed_hosts')
 
-
 # Application definition
 
-INSTALLED_APPS = [
+BASE_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,10 +28,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'undangan',
-    'ucapan',
-    'users',
 ]
+
+APPLICATIONS = [
+    'applications.ucapan.apps.UcapanConfig',
+    'applications.undangan.apps.UndanganConfig',
+    'applications.users.apps.UsersConfig',
+]
+
+INSTALLED_APPS =  BASE_APPS + APPLICATIONS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -48,6 +52,10 @@ MIDDLEWARE = [
 REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'core.utils.handlers.custom_exception'
 }
+
+CORS_ALLOWED_ORIGINS = app_config.get('allowed_origins')
+
+CSRF_TRUSTED_ORIGINS = app_config.get('trusted_origins')
 
 ROOT_URLCONF = 'core.urls'
 

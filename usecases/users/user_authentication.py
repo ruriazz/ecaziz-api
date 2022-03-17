@@ -1,15 +1,12 @@
-# TODO: usecases.users
-
-from ipaddress import ip_address
-import time
 from datetime import datetime, timezone
-from django.contrib.auth.hashers import make_password, check_password
 from rest_framework.exceptions import AuthenticationFailed
-from core.utils.handlers import get_client_ip, get_client_ua
-from core.utils.response import ApiResponse
+from django.contrib.auth.hashers import check_password
 
-from .models import AuthenticatedUser, AuthenticationAttempt, User
-from .serializers import UserSerializer
+from core.utils.response import ApiResponse
+from core.utils.handlers import get_client_ip, get_client_ua
+from applications.users.models import AuthenticationAttempt, User
+from serializers.users import UserSerializer
+from usecases.users.save_auth_data import save_auth_data
 
 # TODO: usecases.users.user_authentication
 def user_authentication(request):
@@ -89,39 +86,16 @@ def user_authentication(request):
         if attempted:
             attempt.delete()
 
-    save_auth_data(user, "test")
+    auth_token = "test"
     serialized = UserSerializer(user, fields = ('id', 'name', 'username'))
-    return ApiResponse({
-        'user': serialized.data 
-    }, 202)
+    save_auth_data(user, "test")
 
-# TODO: usecases.users.create_user
-def create_user(request):
-    data = {
-        'name': str(request.data.get('name')).strip(),
-        'username': str(request.data.get('username')).strip(),
-        'password': str(request.data.get('password')).strip(),
-        'phone_number': str(request.data.get('phone_number')).strip(),
-    }
-
-    user = User()
-    user.name = data.get('name')
-    user.phone_number = data.get('phone_number')
-    user.username = data.get('username')
-    user.password = make_password(data.get('password'))
-
-    user.save()
-
-    serialized = UserSerializer(user)
-    return ApiResponse(serialized.data)
-
-def save_auth_data(user : User, new_token : str, old_token : str = None):
-    if old_token:
-        auth = AuthenticatedUser()
-    else:
-        auth = AuthenticatedUser()
-        auth.token = make_password(new_token)
-        auth.user = user
-        
-        auth.save()
-    
+    return ApiResponse(
+        data = {
+            'user': serialized.data 
+        },
+        headers = {
+            'Auth-Token': auth_token
+        },
+        status = 202
+    )

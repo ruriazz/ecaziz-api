@@ -11,7 +11,7 @@ if settings.ADMIN_ENABLED is True:
 
 urlpatterns += [
     path('api/init', master),
-    path('api/users/', include('users.urls'), name='api-users'),
-    path('api/undangan/', include('undangan.urls'), name='api-undangan'),
-    path('api/ucapan/', include('ucapan.urls'), name='api-ucapan'),
+    path('api/users/', include('applications.users.urls')),
+    path('api/undangan/', include('applications.undangan.urls')),
+    path('api/ucapan/', include('applications.ucapan.urls')),
 ]

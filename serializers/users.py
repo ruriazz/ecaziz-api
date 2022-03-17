@@ -1,5 +1,5 @@
 from core.utils.serializers import DynamicFieldsModelSerializer
-from .models import User
+from applications.users.models import User
 
 # TODO: serializers.UserSerializer
 class UserSerializer(DynamicFieldsModelSerializer):

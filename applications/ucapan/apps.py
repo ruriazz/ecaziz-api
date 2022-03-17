@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class UndanganConfig(AppConfig):
+class UcapanConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'undangan'
+    name = 'applications.ucapan'
