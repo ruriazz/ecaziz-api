@@ -1,12 +1,13 @@
 from datetime import datetime, timezone
+from http.client import ACCEPTED
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.hashers import check_password
 
 from core.utils.response import ApiResponse
 from core.utils.handlers import get_client_ip, get_client_ua
+from core.utils.hash import JWT
 from applications.users.models import AuthenticationAttempt, User
 from serializers.users import UserSerializer
-from usecases.users.save_auth_data import save_auth_data
 
 # TODO: usecases.users.user_authentication
 def user_authentication(request):
@@ -86,9 +87,8 @@ def user_authentication(request):
         if attempted:
             attempt.delete()
 
-    auth_token = "test"
+    auth_token = JWT.build(user)
     serialized = UserSerializer(user, fields = ('id', 'name', 'username'))
-    save_auth_data(user, "test")
 
     return ApiResponse(
         data = {
@@ -97,5 +97,5 @@ def user_authentication(request):
         headers = {
             'Auth-Token': auth_token
         },
-        status = 202
+        status = ACCEPTED
     )

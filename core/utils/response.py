@@ -1,7 +1,8 @@
 import datetime
+from http.client import IM_USED, OK
 from rest_framework.response import Response
 
-def ApiResponse(data = None, status : int = 200, headers : dict = {}):
+def ApiResponse(data = None, status : int = OK, headers : dict = {}):
     response = {
         'success': False,
         'code': status
@@ -10,7 +11,7 @@ def ApiResponse(data = None, status : int = 200, headers : dict = {}):
     if data:
         response['content'] = data
 
-    if status >= 200 and status <= 206:
+    if status >= OK and status <= IM_USED:
         response['success'] = True
     else:
         del response['content']

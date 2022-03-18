@@ -20,7 +20,8 @@ DATABASES = {
 HASHIDS_SALT = {
     'user_id': 'HzN8V2zfccyTcAAL',
     'undangan_id': 'RchKkW2Rm798kqyq',
-    'ucapan_id': '5ApYwHieqQRB0ccF'
+    'ucapan_id': '5ApYwHieqQRB0ccF',
+    'auth_id': 'rR62Of3khjQNKU0o'
 }
 
 ALLOWED_HOSTS = [
@@ -40,8 +41,9 @@ app_config = {
     'db_pass': DATABASES.get('pass'),
     'db_name': DATABASES.get('name'),
     'salt_user': HASHIDS_SALT.get('user_id'),
-    'salt_undangan': HASHIDS_SALT.get('undangan'),
-    'salt_ucapan': HASHIDS_SALT.get('ucapan'),
+    'salt_undangan': HASHIDS_SALT.get('undangan_id'),
+    'salt_ucapan': HASHIDS_SALT.get('ucapan_id'),
+    'salt_auth': HASHIDS_SALT.get('auth_id'),
     'allowed_hosts': ALLOWED_HOSTS,
     'admin_enabled': ADMIN_ENABLED,
     'is_debug': DEBUG,
