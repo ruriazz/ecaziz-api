@@ -1,6 +1,7 @@
 from rest_framework.views import exception_handler
 from rest_framework.exceptions import AuthenticationFailed
 from django.contrib.auth.hashers import make_password, check_password
+from core.utils.hash import JWT
 
 from core.utils.response import ApiResponse
 
@@ -9,7 +10,6 @@ def custom_exception(exc, context):
     response = exception_handler(exc, context)
 
     if response is not None:
-        print("ADA DATA", response.data.get('detail'))
         response = ApiResponse(response.data.get('detail'), response.status_code)
 
     return response
@@ -22,6 +22,45 @@ def is_authenticated(function):
         if not token:
             raise AuthenticationFailed('No authentication credentials.')
 
+        verified = JWT.verify(token)
+        if not verified:
+            raise AuthenticationFailed('Invalid authentication credentials.')
+        
+        request.auth = verified
+
+        func = function(request, *args, **kwargs)
+        return func
+
+    return wrapper
+
+# TODO: 
+def get_auth(function):
+    def wrapper(request, *args, **kwargs):
+        auth = None
+        token = get_credentials(request)
+        if token:
+            verified = JWT.verify(token)
+            auth = verified if verified else auth
+
+        request.auth = auth
+        func = function(request, *args, **kwargs)
+        return func
+
+    return wrapper
+
+# TODO: 
+def valid_auth(function):
+    def wrapper(request, *args, **kwargs):
+        token = get_credentials(request)
+        if not token:
+            raise AuthenticationFailed('No authentication credentials.')
+
+        new_token = JWT.refresh(token)
+        if not new_token:
+            raise AuthenticationFailed('Invalid authentication credentials.')
+
+        request.new_token = new_token
+
         func = function(request, *args, **kwargs)
         return func
 
@@ -30,7 +69,7 @@ def is_authenticated(function):
 # TODO: core.utils.handlers.get_credentials
 def get_credentials(request):
         try:
-            return request.headers.get('Authorization').split('Bearer ')[1]
+            return request.headers.get('Authorization').strip().split('Bearer ')[1]
         except:
             return False
 

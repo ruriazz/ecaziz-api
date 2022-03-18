@@ -42,6 +42,6 @@ class AuthenticatedUser(models.Model):
 
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    token = models.CharField(max_length=256)
+    token = models.CharField(max_length=256, null=True)
     authenticated_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, blank=True)    
