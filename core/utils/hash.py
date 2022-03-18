@@ -1,8 +1,8 @@
-import datetime, jwt, hashlib
+import datetime, jwt
 from django.contrib.auth.hashers import make_password, check_password
 from hashids import Hashids
-from applications.users.models import AuthenticatedUser, User
 from core.variables import app_config
+from applications.users.models import AuthenticatedUser, User
 
 class Hash:
     def encode(hashids:Hashids, value:int):
@@ -23,8 +23,14 @@ class Hash:
             self.__hashids = Hashids(salt=app_config.get('salt_user'))
 
         def encode(self, value:int): return Hash.encode(self.__hashids, value)
-        def decode(self, value:int): return Hash.decode(self.__hashids, value)
+        def decode(self, value:int): return Hash.decode(self.__hashids, value)[0]
 
+    class UndanganId(object):
+        def __init__(self):
+            self.__hashids = Hashids(salt=app_config.get('salt_undangan'))
+
+        def encode(self, value:int): return Hash.encode(self.__hashids, value)
+        def decode(self, value:int): return Hash.decode(self.__hashids, value)[0]
     class AuthId(object):
         def __init__(self):
             self.__hashids = Hashids(salt=app_config.get('salt_auth'))
@@ -43,15 +49,19 @@ class JWT(object):
     def encode(self, payload:dict, headers:dict = {}):
         return jwt.encode(payload, self.__secret_key, algorithm=self.__algorithm, headers = headers).decode('utf-8')
 
-    def decode(self, token):
-        
+    def decode(self, token, verify:bool = False):
         try:
-            decoded = jwt.decode(token, self.__secret_key, algorithm='HS256', audience=self.__aud, options={'verify_exp': False})
+            if not verify:
+                decoded = jwt.decode(token, self.__secret_key, algorithm='HS256', audience=self.__aud, options={'verify_exp': False})
+            else:
+                decoded = jwt.decode(token, self.__secret_key, algorithm='HS256', audience=self.__aud)
+
             headers = jwt.get_unverified_header(token)
             return {
                 'headers': headers,
                 'payload': decoded,
             }
+
         except:
             return False
 
@@ -72,7 +82,7 @@ class JWT(object):
                 "iss": inclass.__iss,
                 "aud": inclass.__aud,
                 "iat": auth.authenticated_at,
-                "exp": auth.authenticated_at + datetime.timedelta(minutes=30),
+                "exp": auth.authenticated_at + datetime.timedelta(minutes=app_config.get('jwt_expired')),
             },
             headers = {
                 "kid": Hash.AuthId().encode(auth.id)
@@ -88,7 +98,15 @@ class JWT(object):
     def verify(token:str):
         inclass = JWT()
 
-        decoded = inclass.decode(token)
+        decoded = inclass.decode(token, verify=True)
+        if not decoded:
+            return False
+
+        kid = decoded.get('headers').get('kid')
+        if not AuthenticatedUser.objects.filter(id=Hash.AuthId().decode(kid)).exists():
+            return False
+
+        return AuthenticatedUser.objects.get(id=Hash.AuthId().decode(kid))
 
     @staticmethod
     def refresh(token:str):
@@ -103,8 +121,6 @@ class JWT(object):
         aud = decoded.get('payload').get('aud')
         now = datetime.datetime.now().timestamp()
 
-        print("aud", aud)
-
         if iss != inclass.__iss:
             return False
 
@@ -118,7 +134,7 @@ class JWT(object):
         if not check_password(token, auth.token):
             return False
 
-        if now < (auth.authenticated_at + datetime.timedelta(minutes=30)).timestamp():
+        if now < (auth.authenticated_at + datetime.timedelta(minutes=app_config.get('jwt_expired'))).timestamp():
             return token
         else:
             new_token = JWT.build(auth.user)

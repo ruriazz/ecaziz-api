@@ -32,6 +32,8 @@ ALLOWED_ORIGINS = []
 
 CSRF_TRUSTED = []
 
+JWT_EXPIRED = 30
+
 app_config = {
     'environment': ENV,
     'secret_key': SECRET_KEY,
@@ -49,4 +51,5 @@ app_config = {
     'is_debug': DEBUG,
     'allowed_origins': ALLOWED_ORIGINS,
     'csrf_trusted': CSRF_TRUSTED,
+    'jwt_expired': JWT_EXPIRED
 }
