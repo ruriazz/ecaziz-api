@@ -50,7 +50,10 @@ MIDDLEWARE = [
 ]
 
 REST_FRAMEWORK = {
-    'EXCEPTION_HANDLER': 'core.utils.handlers.custom_exception'
+    'EXCEPTION_HANDLER': 'core.utils.handlers.custom_exception',
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
 
 CORS_ALLOWED_ORIGINS = app_config.get('allowed_origins')

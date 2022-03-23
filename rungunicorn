@@ -1,0 +1,2 @@
+#!/bin/bash
+exec /home/ruriazz/dev/ecaziz/api/.venv/bin/gunicorn -c /home/ruriazz/dev/ecaziz/api/conf/gunicorn_config.py core.wsgi

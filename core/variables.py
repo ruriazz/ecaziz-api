@@ -3,9 +3,9 @@ import os
 
 ENV = 'dev'
 
-ADMIN_ENABLED = True
+ADMIN_ENABLED = False
 
-DEBUG = True
+DEBUG = False
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-5owfq%%7(d!)+6^sxc+g637hh9+obhk4fj8_(a5e)3ngir8v^+')
 
@@ -25,6 +25,7 @@ HASHIDS_SALT = {
 }
 
 ALLOWED_HOSTS = [
+    'localhost',
     '192.168.6.26'
 ]
 
