@@ -10,8 +10,8 @@ if settings.ADMIN_ENABLED is True:
     urlpatterns += [path('admin/', admin.site.urls),]
 
 urlpatterns += [
-    path('api/init', master),
-    path('api/users/', include('applications.users.urls')),
-    path('api/undangan/', include('applications.undangan.urls')),
-    path('api/ucapan/', include('applications.ucapan.urls')),
+    path('init', master),
+    path('users/', include('applications.users.urls')),
+    path('undangan/', include('applications.undangan.urls')),
+    path('ucapan/', include('applications.ucapan.urls')),
 ]
