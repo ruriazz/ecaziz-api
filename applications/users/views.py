@@ -1,4 +1,4 @@
-from http.client import NO_CONTENT
+from http.client import OK
 from rest_framework.decorators import api_view
 from core.utils.handlers import valid_auth
 from core.utils.response import ApiResponse
@@ -18,6 +18,6 @@ class UserViews:
             headers = {
                 'auth-token': request.new_token
             },
-            status = NO_CONTENT
+            status = OK
         )
 

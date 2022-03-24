@@ -56,7 +56,15 @@ REST_FRAMEWORK = {
     )
 }
 
+CORS_ORIGIN_ALLOW_ALL = False
+
 CORS_ALLOWED_ORIGINS = app_config.get('allowed_origins')
+
+CORS_ALLOW_HEADERS = [
+    'Authorization',
+    'X-Requested-With',
+    'Content-Type'
+]
 
 CSRF_TRUSTED_ORIGINS = app_config.get('trusted_origins')
 

@@ -95,6 +95,7 @@ def user_authentication(request):
             'user': serialized.data 
         },
         headers = {
+            'Access-Control-Expose-Headers': 'Auth-Token',
             'Auth-Token': auth_token
         },
         status = ACCEPTED

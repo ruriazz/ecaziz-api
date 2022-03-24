@@ -1,5 +1,5 @@
 import math
-from http.client import NO_CONTENT, OK
+from http.client import OK
 from core.utils.response import ApiResponse
 
 from applications.undangan.models import Undangan
@@ -45,7 +45,6 @@ def get_list_undangan(request):
 
         results.append(serialized)
 
-    status = NO_CONTENT if len(results) < 1 else OK
     return ApiResponse(
         data = {
             'pagination': {
@@ -58,5 +57,5 @@ def get_list_undangan(request):
             },
             'undangans': results
         },
-        status = status
+        status = OK
     )

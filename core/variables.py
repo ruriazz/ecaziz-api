@@ -5,7 +5,7 @@ ENV = 'dev'
 
 ADMIN_ENABLED = False
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-5owfq%%7(d!)+6^sxc+g637hh9+obhk4fj8_(a5e)3ngir8v^+')
 
@@ -26,10 +26,12 @@ HASHIDS_SALT = {
 
 ALLOWED_HOSTS = [
     'localhost',
-    '192.168.6.26'
+    '192.168.6.26',
 ]
 
-ALLOWED_ORIGINS = []
+ALLOWED_ORIGINS = [
+    'http://192.168.6.26:8082'
+]
 
 CSRF_TRUSTED = []
 
