@@ -7,7 +7,7 @@ ADMIN_ENABLED = True
 
 DEBUG = True
 
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-5owfq%%7(d!)+6^sxc+g637hh9+obhk4fj8_(a5e)3ngir8v^+')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-5owfq%%7(d!)+6^sxc+g637hh9+obhk4fj8_(a5e)3ngir8v^+3dkx%6g=-5g&-+dup#2)nm9#d&oxv3g%rfn8)3(hif0=n8m21u')
 
 DATABASES = {
     'host': os.environ.get('DATABASE_HOST', 'localhost'),
@@ -32,7 +32,7 @@ ALLOWED_ORIGINS = []
 
 CSRF_TRUSTED = []
 
-JWT_EXPIRED = 30
+JWT_EXPIRED = 3000
 
 app_config = {
     'environment': ENV,
