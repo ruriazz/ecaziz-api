@@ -1,8 +1,11 @@
 from django.urls import path
-from .views import test
+
+from applications.ucapan.views import UcapanViews
 
 app_name = 'api-ucapan'
 
 urlpatterns = [
-    path('', test)
+    path('', UcapanViews.index),
+    path('status/<int:id>', UcapanViews.status_change),
+    path('<int:id>', UcapanViews.posts),
 ]
