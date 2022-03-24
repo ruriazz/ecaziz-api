@@ -14,6 +14,7 @@ def get_list_undangan(request):
     limit = limit if limit > 0 else 10
     limit = limit if limit <= 100 else 100
 
+    filter_person_name = str(request.query_params.get('person_name')).strip() if request.query_params.get('person_name', '') != '' else None
     filter_created_by = int(request.query_params.get('created_by')) if request.query_params.get('created_by', '').isnumeric() else None
     filter_is_active = int(request.query_params.get('is_active')) if request.query_params.get('is_active', '').isnumeric() else None
     filter_undangan_type = request.query_params.get('undangan_type').upper() if request.query_params.get('undangan_type', '') != '' else None
@@ -21,6 +22,9 @@ def get_list_undangan(request):
     undangans = Undangan.objects\
         .order_by('person_name', 'id')\
         .only('id', 'undangan_type', 'person_type', 'person_name', 'person_partner', 'person_location', 'phone_number', 'link', 'created_by', 'created_at', 'updated_at', 'is_active')
+
+    if filter_person_name is not None:
+        undangans = undangans.filter(person_name=filter_person_name)
 
     if filter_created_by is not None:
         undangans = undangans.filter(created_by=filter_created_by)
