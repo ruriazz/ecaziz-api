@@ -27,10 +27,13 @@ HASHIDS_SALT = {
 ALLOWED_HOSTS = [
     'localhost',
     '192.168.6.26',
+    'api.ecaaziz.link'
 ]
 
 ALLOWED_ORIGINS = [
-    'http://192.168.6.26:8082'
+    'http://192.168.6.26:8082',
+    'https://manage.ecaaziz.link',
+    'https://ecaaziz.link'
 ]
 
 CSRF_TRUSTED = []
