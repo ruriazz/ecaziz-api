@@ -16,6 +16,7 @@ class UserViews:
     def refresh_auth_token(request):
         return ApiResponse(
             headers = {
+                'Access-Control-Expose-Headers': 'Auth-Token',
                 'auth-token': request.new_token
             },
             status = OK
