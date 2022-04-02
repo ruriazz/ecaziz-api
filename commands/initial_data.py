@@ -1,6 +1,7 @@
 from applications.users.models import User
 from rest_framework.decorators import api_view
 from core.utils.response import ApiResponse
+from django.contrib.auth.hashers import make_password
 
 master_users = [
     {
@@ -17,6 +18,14 @@ master_users = [
         'username': 'caee',
         'password': 'bcrypt_sha256$$2b$12$LRSAfdD2YLWkqzpvrv9o3e1nyu7mpeLi0WdGX.2NpWefRndx0aUOe',
         'phone_number': '621',
+        'is_active': True
+    },
+    {
+        'id': 3,
+        'name': 'demo admin',
+        'username': 'demo',
+        'password': 'bcrypt_sha256$$2b$12$5/6XKwFLcZt9N6aQvKqIr.fnbFvgmE2Dm8eG3.nSa4q5TDvvRRG/W',
+        'phone_number': '622',
         'is_active': True
     }
 ]
