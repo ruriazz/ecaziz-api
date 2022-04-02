@@ -1,4 +1,3 @@
-from dataclasses import fields
 from core.utils.response import ApiResponse
 
 from applications.undangan.models import Undangan
@@ -36,13 +35,8 @@ def _get_undangans_info():
 
     return results
 
-    return ""
-    pass
-
 def _get_undangans_response():
     return ""
-    pass
 
 def _get_latest_response():
     return ""
-    pass
