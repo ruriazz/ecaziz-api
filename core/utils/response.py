@@ -2,7 +2,7 @@ import datetime
 from http.client import IM_USED, OK
 from rest_framework.response import Response
 
-def ApiResponse(data = None, status : int = OK, headers : dict = {}):
+def ApiResponse(data = None, status : int = OK, headers : dict = {}) -> Response:
     response = {
         'success': False,
         'code': status
