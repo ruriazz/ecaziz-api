@@ -5,6 +5,8 @@ from applications.ucapan.models import Ucapan
 from applications.users.models import User
 
 from serializers.users import UserSerializer
+from serializers.undangan import UndanganSerializer
+from serializers.ucapan import UcapanSerializer
 
 def get_dashboard_data():
     return ApiResponse({
@@ -36,7 +38,27 @@ def _get_undangans_info():
     return results
 
 def _get_undangans_response():
-    return ""
+    undangan = Ucapan.objects.only('undangan_id')\
+        .values_list('undangan_id')
+
+    return {
+        'total_undangan': len(undangan.distinct()),
+        'total_response': len(undangan)
+    }
 
 def _get_latest_response():
-    return ""
+    ucapans = Ucapan.objects.filter(is_active=True).order_by('-id')[:5]
+
+    results = []
+
+    for ucapan in ucapans:
+        attend = True if ucapan.text.split(' +_~_+ ')[0] == 'attend' else False
+        message = ucapan.text.split(' +_~_+ ')[1]
+        serialized = UcapanSerializer(ucapan, fields = ('id', 'undangan', 'sender', 'is_active', 'created_at', 'updated_at')).data
+        serialized['attend'] = attend
+        serialized['message'] = message    
+        serialized['undangan'] = UndanganSerializer(ucapan.undangan, fields = ('id', 'undangan_type', 'person_name')).data
+
+        results.append(serialized)
+
+    return results

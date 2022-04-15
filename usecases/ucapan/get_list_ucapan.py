@@ -51,7 +51,11 @@ def get_list_ucapan(request):
     results = []
 
     for ucapan in ucapans:
-        serialized = UcapanSerializer(ucapan, fields = ('id', 'undangan', 'sender', 'text', 'is_active', 'created_at', 'updated_at')).data
+        attend = True if ucapan.text.split(' +_~_+ ')[0] == 'attend' else False
+        message = ucapan.text.split(' +_~_+ ')[1]
+        serialized = UcapanSerializer(ucapan, fields = ('id', 'undangan', 'sender', 'is_active', 'created_at', 'updated_at')).data
+        serialized['attend'] = attend
+        serialized['message'] = message    
         serialized['undangan'] = UndanganSerializer(ucapan.undangan, fields = ('id', 'undangan_type', 'person_name')).data
 
         results.append(serialized)
