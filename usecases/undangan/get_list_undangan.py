@@ -1,5 +1,5 @@
 import math
-from http.client import NO_CONTENT, OK
+from http.client import OK
 from core.utils.response import ApiResponse
 
 from applications.undangan.models import Undangan
@@ -18,6 +18,7 @@ def get_list_undangan(request):
     filter_created_by = int(request.query_params.get('created_by')) if request.query_params.get('created_by', '').isnumeric() else None
     filter_is_active = int(request.query_params.get('is_active')) if request.query_params.get('is_active', '').isnumeric() else None
     filter_undangan_type = request.query_params.get('undangan_type').upper() if request.query_params.get('undangan_type', '') != '' else None
+    search_keywords = str(request.query_params.get('q')).strip() if request.query_params.get('q', '') != '' else None
 
     undangans = Undangan.objects\
         .order_by('person_name', 'id')\
@@ -35,6 +36,9 @@ def get_list_undangan(request):
     if filter_undangan_type is not None:
         undangans = undangans.filter(undangan_type=filter_undangan_type)
 
+    if search_keywords is not None:
+        undangans = undangans.filter(person_name__icontains=search_keywords)
+
     total_rows = undangans.count()
     total_page = math.ceil(total_rows / limit)
     offset = index * limit
@@ -49,7 +53,6 @@ def get_list_undangan(request):
 
         results.append(serialized)
 
-    status = NO_CONTENT if len(results) < 1 else OK
     return ApiResponse(
         data = {
             'pagination': {
@@ -62,5 +65,5 @@ def get_list_undangan(request):
             },
             'undangans': results
         },
-        status = status
+        status = OK
     )

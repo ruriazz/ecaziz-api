@@ -11,6 +11,7 @@ if settings.ADMIN_ENABLED is True:
 
 urlpatterns += [
     path('init', master),
+    path('', include('applications.dashboard.urls')),
     path('users/', include('applications.users.urls')),
     path('undangan/', include('applications.undangan.urls')),
     path('ucapan/', include('applications.ucapan.urls')),

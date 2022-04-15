@@ -1,8 +1,8 @@
 import datetime
-from http.client import IM_USED, NO_CONTENT, OK
+from http.client import IM_USED, OK
 from rest_framework.response import Response
 
-def ApiResponse(data = None, status : int = OK, headers : dict = {}):
+def ApiResponse(data = None, status : int = OK, headers : dict = {}) -> Response:
     response = {
         'success': False,
         'code': status
@@ -26,5 +26,5 @@ def ApiResponse(data = None, status : int = OK, headers : dict = {}):
         response['message'] = data
 
     response['time'] = datetime.datetime.now()
-    status = status if data is not None else NO_CONTENT
+    status = status
     return Response(data=response, status=status, headers=headers)
