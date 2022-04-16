@@ -31,7 +31,7 @@ ALLOWED_HOSTS = [
 ]
 
 ALLOWED_ORIGINS = [
-    'http://192.168.6.26:8082',
+    'http://192.168.6.26:8081',
     'https://manage.ecaaziz.link',
     'https://ecaaziz.link'
 ]
